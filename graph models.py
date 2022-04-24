@@ -6,10 +6,10 @@ g = nx.Graph()
 g.add_nodes_from(range(2))
 g.add_edge(*(0, 1))
 
-# 
+# Erdős–Rényi model
 
 # Barabási-Albert model
-def BA_model(g, final_number_of_nodes=20, alpha=1.):
+def BA_model(g, final_number_of_nodes=30, alpha=1.):
     while g.number_of_nodes() < final_number_of_nodes:
         # allow auto loops?
         # allow nodes with a clearly opposite behaviour
@@ -20,9 +20,14 @@ def BA_model(g, final_number_of_nodes=20, alpha=1.):
         for i in range(new_node):
             if uniform(0, 1) < probabilities[i]:
                 g.add_edge(*(new_node, i))
-        
+   
 BA_model(g)
-nx.draw(g, with_labels=True)
+
+from pyvis.network import Network
+net = Network('1000px', '2000px')
+net.from_nx(g)
+net.show("mygraph.html")
+net.save_graph("mygraph.html")
 
 # compute and visualize some metrics, like:
 # - expected degree of the node i at the j-th iteration
