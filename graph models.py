@@ -1,16 +1,17 @@
 import networkx as nx
 from pyvis.network import Network
 from random import uniform
-
-g = nx.Graph()
-
-g.add_nodes_from(range(2))
-g.add_edge(*(0, 1))
+import itertools
 
 # Erdős–Rényi model
-def ER_model(g):
-    return
-
+def ER_model(number_of_nodes, edge_probability):
+    g = nx.Graph()
+    g.add_nodes_from(range(number_of_nodes))
+    for el in itertools.combinations(range(number_of_nodes), 2):
+        if uniform(0, 1) < edge_probability:
+            g.add_edge(*el)
+    return g
+    
 # Watts–Strogatz model
 def WS_model(g):
     return
@@ -26,7 +27,15 @@ def BA_model(g, final_number_of_nodes=30, alpha=1.):
             if uniform(0, 1) < probabilities[i]:
                 g.add_edge(*(new_node, i))
    
-BA_model(g)
+
+# g = nx.Graph()
+
+# g.add_nodes_from(range(2))
+# g.add_edge(*(0, 1))
+
+# BA_model(g)
+
+g = ER_model(100, .01)
 
 net = Network('1000px', '2000px')
 net.from_nx(g)
