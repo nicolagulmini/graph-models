@@ -29,13 +29,16 @@ as such, remain scale free under such transformations.
 
 import networkx as nx
 import matplotlib.pyplot as plt
+from visualiztion import visualize
 
 g = nx.barabasi_albert_graph(n=10, m=3, seed=42)
+visualize(g)
 degree_dist = nx.degree_histogram(g)
 
 plt.plot(range(len(degree_dist)), degree_dist)
 
 g_transform = nx.random_reference(g)
+visualize(g_transform)
 degree_dist_transform = nx.degree_histogram(g_transform)
 plt.plot(range(len(degree_dist_transform)), degree_dist_transform)
 
