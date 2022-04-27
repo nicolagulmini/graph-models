@@ -24,40 +24,37 @@ graphs (or line graphs) produces an ensemble of graphs with nearly
 the same degree distribution, but with degree correlations and a 
 significantly higher clustering coefficient. Scale free graphs, 
 as such, remain scale free under such transformations.
-
 '''
 
 import networkx as nx
 import matplotlib.pyplot as plt
-from visualiztion import visualize
+from visualization import visualize
+import models
 
-g = nx.barabasi_albert_graph(n=10, m=3, seed=42)
-visualize(g)
+# g = models.BA_model(number_of_nodes=1000, alpha=.1)
+g = nx.barabasi_albert_graph(n=1000, m=2)
+# visualize(g, name="test")
 degree_dist = nx.degree_histogram(g)
+clustering_coeffs = nx.clustering(g).values()
 
+'''
+Clustering coefficient is a measure of the degree to which nodes 
+in a graph tend to cluster together.
+'''
+
+g_complement = nx.complement(g)
+# visualize(g_complement, name="complement")
+degree_dist_complement = nx.degree_histogram(g_complement)
+clustering_coeffs_comp = nx.clustering(g_complement).values()
+
+plt1 = plt.figure('Degree distributions')
 plt.plot(range(len(degree_dist)), degree_dist)
+plt.plot(range(len(degree_dist_complement)), degree_dist_complement)
+plt.xscale('log')
+plt.yscale('log')
 
-g_transform = nx.random_reference(g)
-visualize(g_transform)
-degree_dist_transform = nx.degree_histogram(g_transform)
-plt.plot(range(len(degree_dist_transform)), degree_dist_transform)
+plt2 = plt.figure('Clustering coeff distribution')
+plt.hist(clustering_coeffs)
 
-g_lattice = nx.lattice_reference(g)
-degree_dist_lattice = nx.degree_histogram(g_lattice)
-plt.plot(range(len(degree_dist_lattice)), degree_dist_lattice)
-
-plt.show()
-
-sigma = nx.sigma(g)
-omega = nx.omega(g)
-
-sigma_t = nx.sigma(g_transform)
-omega_t = nx.omega(g_transform)
-
-sigma_l = nx.sigma(g_lattice)
-omega_l = nx.omega(g_lattice)
-
-print(sigma, omega)
-print(sigma_t, omega_t)
-print(sigma_l, omega_l)
-
+plt3 = plt.figure('Clustering coeff distribution for complement')
+plt.hist(clustering_coeffs_comp)
