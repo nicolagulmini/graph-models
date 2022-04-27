@@ -1,5 +1,4 @@
 import networkx as nx
-from pyvis.network import Network
 from random import uniform, sample, choice
 import itertools
 
@@ -52,9 +51,3 @@ def BA_model(number_of_nodes=30, alpha=1.):
             if uniform(0, 1) < probabilities[i]:
                 g.add_edge(*(new_node, i))
     return g
-   
-g = BA_model()
-
-net = Network('1000px', '2000px')
-net.from_nx(g)
-net.show("my_graph.html")
