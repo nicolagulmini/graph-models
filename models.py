@@ -51,3 +51,24 @@ def BA_model(number_of_nodes=30, alpha=1.):
             if uniform(0, 1) < probabilities[i]:
                 g.add_edge(*(new_node, i))
     return g
+
+def custom_barabasi(n=50, alpha=.1, p_opp=.1, p_m=.1, p_c=.1):
+    '''
+    This model is based on the Barabasi Albert one, but
+    p_opp = probability to swap the preferential attachment of a node
+    p_m = probability for a node to be removed for each iteration
+    p_c = probability for an edge to be changed into another random one
+    '''
+    g = nx.Graph()
+    g.add_nodes_from(range(2))
+    g.add_edge(*(0, 1))
+    while g.number_of_nodes() < n:
+        den = sum([g.degree(node)**alpha for node in g.nodes])
+        probabilities = [g.degree(node)**alpha/den for node in g.nodes]
+        new_node = g.number_of_nodes() # label of new node
+        g.add_node(new_node)
+        for i in range(new_node):
+            if uniform(0, 1) < probabilities[i]:
+                g.add_edge(*(new_node, i))
+    return g
+    
