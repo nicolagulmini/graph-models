@@ -2,6 +2,7 @@ import networkx as nx
 from pyvis.network import Network
 from random import uniform, sample, choice
 import itertools
+import matplotlib.pyplot as plt
 
 # Erdős–Rényi models
 def ER_model_Gnp(number_of_nodes=100, edge_probability=.01):
@@ -53,17 +54,20 @@ def BA_model(number_of_nodes=30, alpha=1.):
                 g.add_edge(*(new_node, i))
     return g
    
-g = WS_model()
+g = BA_model()
 
-net = Network('1000px', '2000px')
-net.from_nx(g)
-net.show("my_graph.html")
+# net = Network('1000px', '2000px')
+# net.from_nx(g)
+# net.show("my_graph.html")
+
+clustering_coeffs = nx.clustering(g)
+degree_dist = nx.degree_histogram(g)
+
 
 # compute and visualize some metrics, like:
 # - expected degree of the node i at the j-th iteration
 # - number of isolated nodes
 # - growth of number of edges 
-# - degree distribution
 
 # allow auto loops when it is possible
 # allow nodes with a clearly opposite behaviour and study the changes in the model
